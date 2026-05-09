@@ -92,6 +92,29 @@ const reviews = [
   },
 ];
 
+const aboutPoints = [
+  {
+    number: "01",
+    title: "아파트 리모델링 전문",
+    description: "양산 주요 단지 구조에 맞춘 수납, 조명, 동선 설계",
+  },
+  {
+    number: "02",
+    title: "예산 맞춤 자재 제안",
+    description: "필수 공정과 선택 공정을 나눠 합리적인 견적 구성",
+  },
+  {
+    number: "03",
+    title: "현장 중심 일정 관리",
+    description: "철거부터 마감까지 공정별 체크로 일정 지연 최소화",
+  },
+  {
+    number: "04",
+    title: "입주 후 사후관리",
+    description: "생활하며 발견되는 작은 보완까지 빠르게 대응",
+  },
+];
+
 const filters = ["전체", "20평대", "30평대", "40평대 이상"] as const;
 
 export default function Home() {
@@ -215,10 +238,13 @@ export default function Home() {
               기준으로 제안합니다.
             </p>
             <div className="about-points">
-              <span>아파트 리모델링 전문</span>
-              <span>예산 맞춤 자재 제안</span>
-              <span>현장 중심 일정 관리</span>
-              <span>입주 후 사후관리</span>
+              {aboutPoints.map((point) => (
+                <article key={point.title}>
+                  <span>{point.number}</span>
+                  <h3>{point.title}</h3>
+                  <p>{point.description}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
