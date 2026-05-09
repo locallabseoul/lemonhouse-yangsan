@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>레몬하우스 양산점 | 아파트 전문 인테리어</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            orange: '#E95D0F', // Extracted from logo
+                            light: '#FFF4ED',
+                            dark: '#A6420A',
+                        },
+                        gray: {
+                            50: '#F9FAFB',
+                            100: '#F3F4F6',
+                            200: '#E5E7EB',
+                            300: '#D1D5DB',
+                            400: '#9CA3AF',
+                            500: '#6B7280',
+                            600: '#4B5563',
+                            700: '#374151',
+                            800: '#1F2937',
+                            900: '#111827',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E95D0F; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A6420A; 
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-white">
+
+    <!-- Header -->
+    <header id="header" class="fixed w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/firejet-b286f.appspot.com/o/images%2F9b7b966f-e376-47b8-b8ce-3de13123b7e7.webp?alt=media&token=8662ce25-0d29-4560-93ed-3ca97645d947" alt="Lemon House Logo" class="h-8 w-auto">
+                    <span class="ml-2 text-lg font-bold text-gray-800 tracking-tight">양산점</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-10">
+                    <a href="#about" class="text-base font-medium text-gray-600 hover:text-brand-orange transition-colors">브랜드 소개</a>
+                    <a href="#portfolio" class="text-base font-medium text-gray-600 hover:text-brand-orange transition-colors">시공사례</a>
+                    <a href="#reviews" class="text-base font-medium text-gray-600 hover:text-brand-orange transition-colors">고객리뷰</a>
+                    <a href="#contact" class="text-base font-medium text-gray-600 hover:text-brand-orange transition-colors">오시는 길</a>
+                </nav>
+
+                <!-- CTA Button -->
+                <div class="hidden md:flex items-center">
+                    <a href="#consultation" class="inline-flex items-center justify-center px-6 py-2.5 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-brand-orange hover:bg-brand-dark transition-colors duration-300">
+                        무료 견적 상담
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button type="button" class="text-gray-600 hover:text-brand-orange focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative pt-20 h-[800px] flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/81f6913b97-f8d90312708e182715ae.png" alt="Luxurious modern apartment living room interior design with warm lighting, bright orange accents, elegant furniture, large windows, high quality architectural photography" />
+            <div class="absolute inset-0 bg-gray-900/40"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 w-full max-w-5xl mx-auto">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-orange/20 text-brand-light backdrop-blur-md mb-6 text-sm font-semibold tracking-wider">아파트 전문 인테리어</span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-6 drop-shadow-lg leading-tight">
+                당신의 일상을 <br class="hidden sm:block" /> 예술로 바꾸는 공간
+            </h1>
+            <p class="mt-4 text-xl sm:text-2xl text-gray-200 max-w-3xl mx-auto mb-10 font-light drop-shadow-md">
+                레몬하우스 양산점이 제안하는 프리미엄 아파트 인테리어 솔루션.<br class="hidden md:block"/> 수천 건의 시공 노하우로 완벽한 라이프스타일을 완성합니다.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#portfolio" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded-full text-brand-orange bg-white hover:bg-gray-50 transition-colors duration-300 shadow-lg">
+                    시공사례 보기 <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+                <a href="#consultation" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded-full text-white bg-brand-orange hover:bg-brand-dark transition-colors duration-300 shadow-lg">
+                    빠른 견적 문의
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="bg-white py-12 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-100">
+                <div class="px-4">
+                    <p class="text-4xl font-black text-brand-orange mb-2">10+</p>
+                    <p class="text-sm text-gray-500 font-medium">다년간의 노하우</p>
+                </div>
+                <div class="px-4">
+                    <p class="text-4xl font-black text-brand-orange mb-2">5,000+</p>
+                    <p class="text-sm text-gray-500 font-medium">누적 시공 사례</p>
+                </div>
+                <div class="px-4">
+                    <p class="text-4xl font-black text-brand-orange mb-2">100%</p>
+                    <p class="text-sm text-gray-500 font-medium">직영 시공 시스템</p>
+                </div>
+                <div class="px-4">
+                    <p class="text-4xl font-black text-brand-orange mb-2">A/S</p>
+                    <p class="text-sm text-gray-500 font-medium">철저한 사후관리</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-base text-brand-orange font-semibold tracking-wide uppercase">Portfolio</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    양산점 시공사례
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    최신 트렌드와 고객의 니즈를 반영한 다양한 평수별 시공사례를 확인해보세요.
+                </p>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap justify-center gap-2 mb-12">
+                <button class="px-6 py-2 rounded-full bg-gray-900 text-white text-sm font-medium transition-colors">전체</button>
+                <button class="px-6 py-2 rounded-full bg-white text-gray-600 border border-gray-200 hover:border-brand-orange hover:text-brand-orange text-sm font-medium transition-colors">20평대</button>
+                <button class="px-6 py-2 rounded-full bg-white text-gray-600 border border-gray-200 hover:border-brand-orange hover:text-brand-orange text-sm font-medium transition-colors">30평대</button>
+                <button class="px-6 py-2 rounded-full bg-white text-gray-600 border border-gray-200 hover:border-brand-orange hover:text-brand-orange text-sm font-medium transition-colors">40평대 이상</button>
+            </div>
+
+            <!-- Portfolio Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div class="relative h-64 overflow-hidden">
+                        <img class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/fda278644d-48d95bc49c1a90f16dd8.png" alt="Modern minimalist 30 pyeong apartment living room interior, white tones, warm wood floor, natural light, elegant" />
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800">
+                            양산 물금 반도유보라
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-brand-orange font-semibold">34평형</span>
+                            <span class="text-sm text-gray-400">화이트 미니멀</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-orange transition-colors">따뜻한 감성의 화이트 우드 인테리어</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2 mb-4">공간의 효율성을 극대화하고 따뜻한 색감으로 아늑한 분위기를 연출한 30평대 아파트 시공사례입니다.</p>
+                        <a href="#" class="text-brand-orange font-medium text-sm flex items-center group-hover:underline">자세히 보기 <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div class="relative h-64 overflow-hidden">
+                        <img class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/e75af31da0-c7375f8a751b109f9ddd.png" alt="Luxurious modern dark tone kitchen interior, marble island, built-in appliances, sophisticated lighting" />
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800">
+                            양산 대방노블랜드
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-brand-orange font-semibold">42평형</span>
+                            <span class="text-sm text-gray-400">모던 럭셔리</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-orange transition-colors">호텔 같은 품격, 모던 다크 인테리어</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2 mb-4">고급스러운 자재와 무게감 있는 컬러 매치로 럭셔리한 분위기를 완성한 대형 평수 주방 및 거실.</p>
+                        <a href="#" class="text-brand-orange font-medium text-sm flex items-center group-hover:underline">자세히 보기 <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div class="relative h-64 overflow-hidden">
+                        <img class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/c4241842d7-c172536e55ed5c166643.png" alt="Cozy pastel tone bedroom interior, built-in wardrobe, soft lighting, modern Korean apartment style" />
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800">
+                            양산 증산 이지더원
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-brand-orange font-semibold">25평형</span>
+                            <span class="text-sm text-gray-400">파스텔 코지</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-orange transition-colors">수납과 디자인을 모두 잡은 침실</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2 mb-4">붙박이장으로 수납 공간을 확보하고 부드러운 파스텔 톤으로 마감하여 편안한 휴식을 제공하는 공간.</p>
+                        <a href="#" class="text-brand-orange font-medium text-sm flex items-center group-hover:underline">자세히 보기 <i class="fa-solid fa-arrow-right ml-1 text-xs"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="inline-flex items-center justify-center px-8 py-3 border border-gray-300 rounded-full text-base font-medium text-gray-700 bg-white hover:bg-gray-50 hover:text-brand-orange transition-all duration-300">
+                    포트폴리오 더보기
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Review Section -->
+    <section id="reviews" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div>
+                    <h2 class="text-base text-brand-orange font-semibold tracking-wide uppercase">Reviews</h2>
+                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                        고객 만족 후기
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="flex text-yellow-400 text-xl">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <span class="text-gray-600 font-medium">평점 4.9/5.0 (250+ 리뷰)</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 relative">
+                    <div class="text-brand-orange/20 text-6xl absolute top-4 right-4">
+                        <i class="fa-solid fa-quote-right"></i>
+                    </div>
+                    <div class="flex items-center mb-6">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">김*지 고객님</h4>
+                            <p class="text-sm text-gray-500">물금 반도유보라 34평</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed relative z-10">
+                        "처음 상담할 때부터 너무 친절하셨고, 제가 원하는 화이트 우드 컨셉을 찰떡같이 이해하고 구현해주셨어요. 중간중간 소통도 잘되고 마감도 깔끔해서 대만족입니다. 양산에서 인테리어 하실 분들 무조건 추천해요!"
+                    </p>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 relative">
+                    <div class="text-brand-orange/20 text-6xl absolute top-4 right-4">
+                        <i class="fa-solid fa-quote-right"></i>
+                    </div>
+                    <div class="flex items-center mb-6">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">이*훈 고객님</h4>
+                            <p class="text-sm text-gray-500">대방노블랜드 42평</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed relative z-10">
+                        "오래된 아파트라 걱정이 많았는데 뼈대만 남기고 완전히 새집으로 만들어주셨습니다. 특히 단열이나 보이지 않는 부분까지 꼼꼼하게 시공해주셔서 겨울을 따뜻하게 보내고 있어요. AS도 확실해서 믿음이 갑니다."
+                    </p>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 relative">
+                    <div class="text-brand-orange/20 text-6xl absolute top-4 right-4">
+                        <i class="fa-solid fa-quote-right"></i>
+                    </div>
+                    <div class="flex items-center mb-6">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">박*영 고객님</h4>
+                            <p class="text-sm text-gray-500">증산 이지더원 25평</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed relative z-10">
+                        "신혼집 인테리어를 맡겼는데 예산 내에서 최대의 효과를 낼 수 있도록 자재 추천을 잘해주셨어요. 디자인도 예쁘지만 실용적인 동선 설계가 살면서 더욱 빛을 발하네요. 지인들에게도 적극 추천하고 있습니다."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consultation & Contact Form -->
+    <section id="consultation" class="py-24 bg-brand-light relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-brand-orange opacity-10 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-brand-orange opacity-10 blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Text Content -->
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6">
+                        새로운 시작을 위한 <br/>
+                        <span class="text-brand-orange">첫 걸음, 무료 견적 상담</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-8">
+                        레몬하우스 양산점의 전문가가 고객님의 라이프스타일과 예산에 맞춘 최적의 인테리어 솔루션을 제안해 드립니다. 부담 없이 문의 남겨주세요.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-sm text-brand-orange">
+                                <i class="fa-solid fa-phone text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-bold text-gray-900">대표전화</h3>
+                                <p class="text-xl text-brand-orange font-bold mt-1">1644-0402</p>
+                                <p class="text-sm text-gray-500 mt-1">상담시간: 평일 09:00 - 18:00 (주말/공휴일 휴무)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-sm text-brand-orange">
+                                <i class="fa-solid fa-location-dot text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-bold text-gray-900">양산점 오시는 길</h3>
+                                <p class="text-base text-gray-600 mt-1">경상남도 양산시 물금읍 물금로 123, 레몬빌딩 2층</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-10">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-100 pb-4">온라인 견적 문의</h3>
+                    <form action="#" method="POST" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">이름</label>
+                                <input type="text" name="name" id="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-orange focus:ring-brand-orange bg-gray-50 border p-3 outline-none transition-colors" placeholder="홍길동">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700">연락처</label>
+                                <input type="tel" name="phone" id="phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-orange focus:ring-brand-orange bg-gray-50 border p-3 outline-none transition-colors" placeholder="010-0000-0000">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="address" class="block text-sm font-medium text-gray-700">시공 현장 주소 (아파트명)</label>
+                            <input type="text" name="address" id="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-orange focus:ring-brand-orange bg-gray-50 border p-3 outline-none transition-colors" placeholder="예: 양산 물금 반도유보라 4차">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="size" class="block text-sm font-medium text-gray-700">평수</label>
+                                <select id="size" name="size" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-orange focus:ring-brand-orange bg-gray-50 border p-3 outline-none transition-colors">
+                                    <option>20평 미만</option>
+                                    <option>20평대</option>
+                                    <option>30평대</option>
+                                    <option>40평대</option>
+                                    <option>50평 이상</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="budget" class="block text-sm font-medium text-gray-700">예산 (만원)</label>
+                                <input type="text" name="budget" id="budget" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-orange focus:ring-brand-orange bg-gray-50 border p-3 outline-none transition-colors" placeholder="예: 3000">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700">상담 내용</label>
+                            <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-orange focus:ring-brand-orange bg-gray-50 border p-3 outline-none transition-colors resize-none" placeholder="원하시는 인테리어 스타일이나 특별히 신경 쓰고 싶은 부분을 적어주세요."></textarea>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="privacy" name="privacy" type="checkbox" class="focus:ring-brand-orange h-4 w-4 text-brand-orange border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="privacy" class="font-medium text-gray-700">개인정보 수집 및 이용 동의 (필수)</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-md shadow-sm text-lg font-bold text-white bg-brand-orange hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange transition-colors duration-300">
+                            무료 견적 신청하기
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 border-b border-gray-800 pb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-6 bg-white p-2 inline-block rounded">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/firejet-b286f.appspot.com/o/images%2F9b7b966f-e376-47b8-b8ce-3de13123b7e7.webp?alt=media&token=8662ce25-0d29-4560-93ed-3ca97645d947" alt="Lemon House Logo" class="h-8 w-auto filter brightness-0">
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-md mb-6">
+                        레몬하우스는 다년간의 노하우와 전문성을 바탕으로 고객님의 라이프스타일에 맞춘 최적의 주거 공간을 디자인하는 아파트 전문 인테리어 브랜드입니다.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa-brands fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa-brands fa-youtube text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa-solid fa-blog text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">바로가기</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-gray-400 hover:text-brand-orange transition-colors text-sm">브랜드 소개</a></li>
+                        <li><a href="#portfolio" class="text-gray-400 hover:text-brand-orange transition-colors text-sm">시공사례</a></li>
+                        <li><a href="#reviews" class="text-gray-400 hover:text-brand-orange transition-colors text-sm">고객리뷰</a></li>
+                        <li><a href="#consultation" class="text-gray-400 hover:text-brand-orange transition-colors text-sm">견적문의</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">양산점 정보</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 w-4"></i> 경남 양산시 물금읍 물금로 123</li>
+                        <li class="flex items-center"><i class="fa-solid fa-phone mr-2 w-4"></i> 1644-0402</li>
+                        <li class="flex items-start"><i class="fa-solid fa-clock mt-1 mr-2 w-4"></i> 평일 09:00 - 18:00<br>(방문 상담 시 사전 예약 필수)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2024 레몬하우스 양산점. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">이용약관</a>
+                    <a href="#" class="hover:text-white transition-colors font-bold">개인정보처리방침</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
