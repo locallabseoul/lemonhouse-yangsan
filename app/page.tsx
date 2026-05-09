@@ -227,16 +227,18 @@ export default function Home() {
         </section>
 
         <section id="about" className="section about">
-          <div className="section-heading align-left">
-            <span>About</span>
-            <h2>양산 아파트 구조와 생활 패턴을 이해하는 인테리어</h2>
-          </div>
-          <div className="about-grid">
-            <p>
-              레몬하우스 양산점은 상담, 디자인, 자재 선정, 현장 시공, 사후관리까지 한 흐름으로
-              관리합니다. 보기 좋은 공간을 넘어 실제로 살기 편한 수납, 조명, 동선, 마감 품질을
-              기준으로 제안합니다.
-            </p>
+          <div className="about-shell">
+            <div className="about-copy">
+              <div className="section-heading align-left">
+                <span>About</span>
+                <h2>양산 아파트 구조와 생활 패턴을 이해하는 인테리어</h2>
+              </div>
+              <p>
+                레몬하우스 양산점은 상담, 디자인, 자재 선정, 현장 시공, 사후관리까지 한 흐름으로
+                관리합니다. 보기 좋은 공간을 넘어 실제로 살기 편한 수납, 조명, 동선, 마감 품질을
+                기준으로 제안합니다.
+              </p>
+            </div>
             <div className="about-points">
               {aboutPoints.map((point) => (
                 <article key={point.title}>

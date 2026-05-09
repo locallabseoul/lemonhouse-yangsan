@@ -292,32 +292,44 @@ img {
   background: #fff;
 }
 
-.about-grid {
+.about-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 440px);
-  gap: 48px;
-  align-items: start;
-  max-width: 1180px;
+  grid-template-columns: minmax(0, 0.95fr) minmax(520px, 1fr);
+  gap: clamp(56px, 8vw, 116px);
+  align-items: center;
+  max-width: 1360px;
   margin: 0 auto;
 }
 
-.about-grid p {
+.about .section-heading {
+  margin-bottom: 0;
+}
+
+.about-copy {
+  max-width: 660px;
+}
+
+.about-copy p {
   margin: 0;
   color: #444;
-  font-size: 20px;
-  line-height: 1.85;
+  font-size: 19px;
+  line-height: 1.82;
+}
+
+.about-copy .section-heading + p {
+  margin-top: 32px;
 }
 
 .about-points {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 18px;
 }
 
 .about-points article {
   position: relative;
-  min-height: 148px;
-  padding: 22px 22px 20px;
+  min-height: 172px;
+  padding: 26px 26px 24px;
   border: 1px solid rgba(233, 93, 15, 0.16);
   border-radius: 8px;
   background:
@@ -693,10 +705,18 @@ img {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .about-grid,
+  .about-shell,
   .consultation,
   .footer {
     grid-template-columns: 1fr;
+  }
+
+  .about-shell {
+    gap: 42px;
+  }
+
+  .about-copy {
+    max-width: none;
   }
 
   .consultation-copy {
