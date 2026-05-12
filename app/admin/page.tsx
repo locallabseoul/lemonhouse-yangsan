@@ -184,7 +184,7 @@ export default function AdminPage() {
     const data = (await readJson(response)) as { data?: HomepageHero; error?: string };
 
     if (!response.ok) {
-      setErrorMessage(data.error ?? "메인 히어로를 불러오지 못했습니다.");
+      setErrorMessage(data.error ?? "메인 화면을 불러오지 못했습니다.");
       return;
     }
 
@@ -208,14 +208,14 @@ export default function AdminPage() {
     const data = (await readJson(response)) as { data?: HomepageHero; error?: string };
 
     if (!response.ok) {
-      setErrorMessage(data.error ?? "메인 히어로 저장에 실패했습니다.");
+      setErrorMessage(data.error ?? "메인 화면 저장에 실패했습니다.");
       return;
     }
 
     if (data.data) {
       setHeroForm(data.data);
     }
-    setSuccessMessage("메인 히어로를 저장했습니다.");
+    setSuccessMessage("메인 화면을 저장했습니다.");
   }
 
   async function uploadImage(file: File, folder: "hero" | "portfolio") {
@@ -396,7 +396,7 @@ export default function AdminPage() {
         <div>
           <span>Admin</span>
           <h1>콘텐츠 관리</h1>
-          <p>문의, 메인 히어로, 시공사례 콘텐츠를 관리합니다.</p>
+          <p>문의, 메인 화면, 시공사례 콘텐츠를 관리합니다.</p>
         </div>
         <button type="button" onClick={loadAdminContent}>
           새로고침
@@ -416,7 +416,7 @@ export default function AdminPage() {
           type="button"
           onClick={() => setActiveTab("hero")}
         >
-          메인 히어로
+          메인 화면
         </button>
         <button
           className={activeTab === "portfolio" ? "active" : ""}
@@ -499,7 +499,7 @@ export default function AdminPage() {
       {activeTab === "hero" ? (
         <section className="admin-editor-panel">
           <form className="admin-editor-form" onSubmit={saveHero}>
-            <h2>메인 히어로 편집</h2>
+            <h2>메인 화면 편집</h2>
             <label>
               배지 문구
               <input
@@ -548,56 +548,12 @@ export default function AdminPage() {
             </label>
             {heroForm.background_image_url ? (
               <div className="admin-image-preview">
-                <img src={heroForm.background_image_url} alt="메인 히어로 배경 미리보기" />
+                <img src={heroForm.background_image_url} alt="메인 화면 배경 미리보기" />
                 <span>{uploadingField === "hero" ? "업로드 중..." : "현재 배경 이미지"}</span>
               </div>
             ) : null}
-            <div className="form-grid">
-              <label>
-                첫 번째 버튼 문구
-                <input
-                  value={heroForm.primary_label}
-                  onChange={(event) =>
-                    setHeroForm({ ...heroForm, primary_label: event.target.value })
-                  }
-                  required
-                />
-              </label>
-              <label>
-                첫 번째 버튼 링크
-                <input
-                  value={heroForm.primary_href}
-                  onChange={(event) =>
-                    setHeroForm({ ...heroForm, primary_href: event.target.value })
-                  }
-                  required
-                />
-              </label>
-            </div>
-            <div className="form-grid">
-              <label>
-                두 번째 버튼 문구
-                <input
-                  value={heroForm.secondary_label}
-                  onChange={(event) =>
-                    setHeroForm({ ...heroForm, secondary_label: event.target.value })
-                  }
-                  required
-                />
-              </label>
-              <label>
-                두 번째 버튼 링크
-                <input
-                  value={heroForm.secondary_href}
-                  onChange={(event) =>
-                    setHeroForm({ ...heroForm, secondary_href: event.target.value })
-                  }
-                  required
-                />
-              </label>
-            </div>
             <button className="button button-primary" type="submit">
-              히어로 저장
+              메인 화면 저장
             </button>
           </form>
         </section>
