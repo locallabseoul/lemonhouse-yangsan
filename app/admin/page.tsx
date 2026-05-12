@@ -1,20 +1,18 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import type { Session } from "@supabase/supabase-js";
 import {
   ConsultationRequest,
   ConsultationStatus,
   consultationStatusLabels,
 } from "@/lib/consultations";
-import { supabase } from "@/lib/supabase";
 
 const statusOptions = Object.keys(consultationStatusLabels) as ConsultationStatus[];
 
 export default function AdminPage() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [email, setEmail] = useState("");
-  const [authMessage, setAuthMessage] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("");
   const [requests, setRequests] = useState<ConsultationRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -28,76 +26,83 @@ export default function AdminPage() {
   }, [requests]);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setIsLoading(false);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession);
-    });
-
-    return () => subscription.unsubscribe();
+    checkSession();
   }, []);
 
   useEffect(() => {
-    if (!session) {
+    if (!isAuthenticated) {
       setRequests([]);
       return;
     }
 
     loadRequests();
-  }, [session]);
+  }, [isAuthenticated]);
+
+  async function checkSession() {
+    setIsLoading(true);
+
+    const response = await fetch("/api/admin/session");
+    const data = (await response.json()) as { authenticated: boolean };
+
+    setIsAuthenticated(data.authenticated);
+    setIsLoading(false);
+  }
+
+  async function login(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setErrorMessage("");
+
+    const response = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (!response.ok) {
+      const data = (await response.json()) as { error?: string };
+      setErrorMessage(data.error ?? "로그인에 실패했습니다.");
+      return;
+    }
+
+    setPassword("");
+    setIsAuthenticated(true);
+  }
 
   async function loadRequests() {
     setIsLoading(true);
     setErrorMessage("");
 
-    const { data, error } = await supabase
-      .from("consultation_requests")
-      .select("*")
-      .order("created_at", { ascending: false });
+    const response = await fetch("/api/admin/consultations");
+    const data = (await response.json()) as {
+      data?: ConsultationRequest[];
+      error?: string;
+    };
 
-    if (error) {
-      setErrorMessage(error.message);
+    if (!response.ok) {
+      setErrorMessage(data.error ?? "문의 목록을 불러오지 못했습니다.");
       setIsLoading(false);
       return;
     }
 
-    setRequests((data ?? []) as ConsultationRequest[]);
+    setRequests(data.data ?? []);
     setIsLoading(false);
   }
 
-  async function sendMagicLink(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setAuthMessage("");
-    setErrorMessage("");
-
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/admin`,
+  async function updateStatus(id: string, status: ConsultationStatus) {
+    const response = await fetch(`/api/admin/consultations/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({ status }),
     });
 
-    if (error) {
-      setErrorMessage(error.message);
-      return;
-    }
+    const data = (await response.json()) as { error?: string };
 
-    setAuthMessage("로그인 링크를 이메일로 보냈습니다.");
-  }
-
-  async function updateStatus(id: string, status: ConsultationStatus) {
-    const { error } = await supabase
-      .from("consultation_requests")
-      .update({ status })
-      .eq("id", id);
-
-    if (error) {
-      setErrorMessage(error.message);
+    if (!response.ok) {
+      setErrorMessage(data.error ?? "상태 변경에 실패했습니다.");
       return;
     }
 
@@ -107,10 +112,12 @@ export default function AdminPage() {
   }
 
   async function signOut() {
-    await supabase.auth.signOut();
+    await fetch("/api/admin/logout", { method: "POST" });
+    setIsAuthenticated(false);
+    setRequests([]);
   }
 
-  if (!session) {
+  if (!isAuthenticated) {
     return (
       <main className="admin-page auth-page">
         <section className="admin-auth-card">
@@ -119,25 +126,34 @@ export default function AdminPage() {
             <span>Admin</span>
           </a>
           <h1>관리자 로그인</h1>
-          <p>Supabase Auth에 등록된 관리자 이메일로 로그인 링크를 받아 접속합니다.</p>
+          <p>관리자 계정으로 접속해 웹사이트 문의를 확인합니다.</p>
 
-          <form onSubmit={sendMagicLink}>
+          <form onSubmit={login}>
             <label>
-              이메일
+              아이디
               <input
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="admin@example.com"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+                placeholder="admin"
+                required
+              />
+            </label>
+            <label>
+              비밀번호
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="admin"
                 required
               />
             </label>
             <button className="button button-primary" type="submit">
-              로그인 링크 받기
+              로그인
             </button>
           </form>
 
-          {authMessage ? <p className="admin-note">{authMessage}</p> : null}
+          {isLoading ? <p className="admin-note">세션을 확인하는 중입니다.</p> : null}
           {errorMessage ? <p className="admin-note error">{errorMessage}</p> : null}
         </section>
       </main>
@@ -152,7 +168,7 @@ export default function AdminPage() {
           <span>Admin</span>
         </a>
         <div>
-          <span>{session.user.email}</span>
+          <span>{username}</span>
           <button type="button" onClick={signOut}>
             로그아웃
           </button>
