@@ -41,28 +41,38 @@ export default function AdminPage() {
   async function checkSession() {
     setIsLoading(true);
 
-    const response = await fetch("/api/admin/session");
-    const data = (await response.json()) as { authenticated: boolean };
+    try {
+      const response = await fetch("/api/admin/session");
+      const data = (await readJson(response)) as { authenticated?: boolean };
 
-    setIsAuthenticated(data.authenticated);
-    setIsLoading(false);
+      setIsAuthenticated(Boolean(data.authenticated));
+    } catch {
+      setErrorMessage("관리자 세션을 확인하지 못했습니다.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage("");
 
-    const response = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = (await readJson(response)) as { error?: string };
 
-    if (!response.ok) {
-      const data = (await response.json()) as { error?: string };
-      setErrorMessage(data.error ?? "로그인에 실패했습니다.");
+      if (!response.ok) {
+        setErrorMessage(data.error ?? "로그인에 실패했습니다.");
+        return;
+      }
+    } catch {
+      setErrorMessage("로그인 요청을 처리하지 못했습니다.");
       return;
     }
 
@@ -74,20 +84,26 @@ export default function AdminPage() {
     setIsLoading(true);
     setErrorMessage("");
 
-    const response = await fetch("/api/admin/consultations");
-    const data = (await response.json()) as {
-      data?: ConsultationRequest[];
-      error?: string;
-    };
+    try {
+      const response = await fetch("/api/admin/consultations");
+      const data = (await readJson(response)) as {
+        data?: ConsultationRequest[];
+        error?: string;
+      };
 
-    if (!response.ok) {
-      setErrorMessage(data.error ?? "문의 목록을 불러오지 못했습니다.");
+      if (!response.ok) {
+        setErrorMessage(data.error ?? "문의 목록을 불러오지 못했습니다.");
+        setRequests([]);
+        return;
+      }
+
+      setRequests(data.data ?? []);
+    } catch {
+      setErrorMessage("문의 목록을 불러오지 못했습니다.");
+      setRequests([]);
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    setRequests(data.data ?? []);
-    setIsLoading(false);
   }
 
   async function updateStatus(id: string, status: ConsultationStatus) {
@@ -99,7 +115,7 @@ export default function AdminPage() {
       body: JSON.stringify({ status }),
     });
 
-    const data = (await response.json()) as { error?: string };
+    const data = (await readJson(response)) as { error?: string };
 
     if (!response.ok) {
       setErrorMessage(data.error ?? "상태 변경에 실패했습니다.");
@@ -255,4 +271,20 @@ export default function AdminPage() {
       </section>
     </main>
   );
+}
+
+async function readJson(response: Response) {
+  const text = await response.text();
+
+  if (!text) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(text) as unknown;
+  } catch {
+    return {
+      error: response.ok ? undefined : "서버 응답을 읽지 못했습니다.",
+    };
+  }
 }

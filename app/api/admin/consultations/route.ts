@@ -9,10 +9,21 @@ export async function GET() {
     return unauthorized;
   }
 
-  const { data, error } = await createSupabaseAdminClient()
-    .from("consultation_requests")
-    .select("*")
-    .order("created_at", { ascending: false });
+  let query;
+
+  try {
+    query = createSupabaseAdminClient()
+      .from("consultation_requests")
+      .select("*")
+      .order("created_at", { ascending: false });
+  } catch {
+    return NextResponse.json(
+      { error: "SUPABASE_SERVICE_ROLE_KEY 환경변수가 필요합니다." },
+      { status: 500 },
+    );
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

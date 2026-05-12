@@ -22,10 +22,21 @@ export async function PATCH(
     return NextResponse.json({ error: "Invalid status" }, { status: 400 });
   }
 
-  const { error } = await createSupabaseAdminClient()
-    .from("consultation_requests")
-    .update({ status })
-    .eq("id", id);
+  let query;
+
+  try {
+    query = createSupabaseAdminClient()
+      .from("consultation_requests")
+      .update({ status })
+      .eq("id", id);
+  } catch {
+    return NextResponse.json(
+      { error: "SUPABASE_SERVICE_ROLE_KEY 환경변수가 필요합니다." },
+      { status: 500 },
+    );
+  }
+
+  const { error } = await query;
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
