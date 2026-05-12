@@ -708,6 +708,9 @@ img {
 .admin-hero,
 .admin-metrics,
 .admin-list,
+.admin-tabs,
+.admin-editor-panel,
+.admin-content-grid,
 .admin-auth-card {
   width: min(100%, 1180px);
   margin-inline: auto;
@@ -793,8 +796,37 @@ img {
   margin-bottom: 18px;
 }
 
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.admin-tabs button {
+  min-height: 42px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.admin-tabs button.active {
+  background: var(--brand);
+  color: #fff;
+}
+
 .admin-metrics article,
 .request-card,
+.admin-editor-form,
+.admin-portfolio-card,
 .admin-auth-card {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -823,6 +855,143 @@ img {
 .admin-list {
   display: grid;
   gap: 14px;
+}
+
+.admin-editor-panel {
+  display: grid;
+}
+
+.admin-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 430px) 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.admin-editor-form {
+  display: grid;
+  gap: 16px;
+  padding: 26px;
+}
+
+.admin-editor-form h2 {
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+
+.admin-editor-form label {
+  display: grid;
+  gap: 8px;
+  color: #3a3a3a;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.admin-editor-form input,
+.admin-editor-form select,
+.admin-editor-form textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 13px;
+  border: 1px solid #ded7d0;
+  border-radius: 8px;
+  outline: none;
+  background: #fbfaf8;
+  color: var(--ink);
+}
+
+.admin-editor-form textarea {
+  resize: vertical;
+}
+
+.admin-editor-form input:focus,
+.admin-editor-form select:focus,
+.admin-editor-form textarea:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px rgba(233, 93, 15, 0.12);
+}
+
+.admin-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-form-actions button:not(.button) {
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.admin-checkbox {
+  align-self: end;
+  min-height: 46px;
+}
+
+.admin-portfolio-list {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-portfolio-card {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  gap: 18px;
+  padding: 14px;
+}
+
+.admin-portfolio-card img {
+  width: 100%;
+  height: 126px;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.admin-portfolio-card > div {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.admin-portfolio-card span {
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.admin-portfolio-card h3,
+.admin-portfolio-card p {
+  margin: 0;
+}
+
+.admin-portfolio-card h3 {
+  font-size: 20px;
+}
+
+.admin-portfolio-card p {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.admin-portfolio-card div div {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.admin-portfolio-card button {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 900;
 }
 
 .request-card {
@@ -976,6 +1145,10 @@ img {
     display: grid;
   }
 
+  .admin-content-grid {
+    grid-template-columns: 1fr;
+  }
+
   .admin-metrics,
   .request-card dl {
     grid-template-columns: 1fr;
@@ -1048,6 +1221,23 @@ img {
 
   .admin-auth-card {
     padding: 24px;
+  }
+
+  .admin-tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .admin-editor-form {
+    padding: 20px;
+  }
+
+  .admin-portfolio-card {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-portfolio-card img {
+    height: 190px;
   }
 
   .reviews-heading {

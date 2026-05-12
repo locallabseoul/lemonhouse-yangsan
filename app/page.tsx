@@ -1,24 +1,38 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
+import { HomepageHero, SitePortfolioItem } from "@/lib/content";
 import { supabase } from "@/lib/supabase";
 
-type PortfolioItem = {
-  title: string;
-  apartment: string;
-  size: "20평대" | "30평대" | "40평대 이상";
-  style: string;
-  image: string;
-  description: string;
+type PortfolioItem = Pick<
+  SitePortfolioItem,
+  "title" | "apartment" | "size" | "style" | "description"
+> & {
+  image_url: string;
 };
 
-const portfolioItems: PortfolioItem[] = [
+const defaultHero: HomepageHero = {
+  id: "main",
+  eyebrow: "아파트 전문 인테리어",
+  title: "당신의 일상을 예술로 바꾸는 공간",
+  description:
+    "레몬하우스 양산점이 제안하는 프리미엄 아파트 인테리어 솔루션. 수천 건의 시공 노하우로 생활에 맞는 집을 완성합니다.",
+  background_image_url:
+    "https://storage.googleapis.com/uxpilot-auth.appspot.com/81f6913b97-f8d90312708e182715ae.png",
+  primary_label: "시공사례 보기",
+  primary_href: "#portfolio",
+  secondary_label: "빠른 견적 문의",
+  secondary_href: "#consultation",
+  updated_at: null,
+};
+
+const defaultPortfolioItems: PortfolioItem[] = [
   {
     title: "따뜻한 감성의 화이트 우드 인테리어",
     apartment: "양산 물금 반도유보라",
     size: "30평대",
     style: "화이트 미니멀",
-    image:
+    image_url:
       "https://storage.googleapis.com/uxpilot-auth.appspot.com/fda278644d-48d95bc49c1a90f16dd8.png",
     description:
       "공간 효율을 높이고 따뜻한 색감으로 아늑한 분위기를 연출한 34평 아파트 시공 사례입니다.",
@@ -28,7 +42,7 @@ const portfolioItems: PortfolioItem[] = [
     apartment: "양산 대방노블랜드",
     size: "40평대 이상",
     style: "모던 럭셔리",
-    image:
+    image_url:
       "https://storage.googleapis.com/uxpilot-auth.appspot.com/e75af31da0-c7375f8a751b109f9ddd.png",
     description:
       "고급 자재와 무게감 있는 컬러 매치로 완성한 대형 평수 주방 및 거실 리모델링입니다.",
@@ -38,7 +52,7 @@ const portfolioItems: PortfolioItem[] = [
     apartment: "양산 증산 이지더원",
     size: "20평대",
     style: "파스텔 코지",
-    image:
+    image_url:
       "https://storage.googleapis.com/uxpilot-auth.appspot.com/c4241842d7-c172536e55ed5c166643.png",
     description:
       "붙박이장으로 수납을 확보하고 부드러운 톤으로 편안한 휴식을 제공하는 침실입니다.",
@@ -48,7 +62,7 @@ const portfolioItems: PortfolioItem[] = [
     apartment: "양산 사송 더샵데시앙",
     size: "30평대",
     style: "내추럴 모던",
-    image:
+    image_url:
       "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&q=80",
     description:
       "거실과 주방의 연결감을 살리고 아이가 있는 가족의 생활 동선을 중심으로 설계했습니다.",
@@ -58,7 +72,7 @@ const portfolioItems: PortfolioItem[] = [
     apartment: "양산 이편한세상",
     size: "20평대",
     style: "스톤 그레이",
-    image:
+    image_url:
       "https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1200&q=80",
     description:
       "톤 다운된 타일과 간접 조명으로 작은 욕실도 넓고 정돈되어 보이도록 완성했습니다.",
@@ -68,7 +82,7 @@ const portfolioItems: PortfolioItem[] = [
     apartment: "양산 우미린",
     size: "40평대 이상",
     style: "클래식 모던",
-    image:
+    image_url:
       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     description:
       "넓은 면적의 장점을 살려 수납, 조명, 마감재의 균형을 정교하게 맞춘 프로젝트입니다.",
@@ -122,6 +136,8 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<(typeof filters)[number]>("전체");
   const [formState, setFormState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [hero, setHero] = useState<HomepageHero>(defaultHero);
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>(defaultPortfolioItems);
 
   const visiblePortfolio = useMemo(() => {
     if (activeFilter === "전체") {
@@ -129,7 +145,35 @@ export default function Home() {
     }
 
     return portfolioItems.filter((item) => item.size === activeFilter);
-  }, [activeFilter]);
+  }, [activeFilter, portfolioItems]);
+
+  useEffect(() => {
+    loadPublicContent();
+  }, []);
+
+  async function loadPublicContent() {
+    try {
+      const [{ data: heroData }, { data: portfolioData }] = await Promise.all([
+        supabase.from("homepage_hero").select("*").eq("id", "main").maybeSingle(),
+        supabase
+          .from("portfolio_items")
+          .select("title, apartment, size, style, image_url, description")
+          .eq("is_published", true)
+          .order("sort_order", { ascending: true })
+          .order("created_at", { ascending: false }),
+      ]);
+
+      if (heroData) {
+        setHero(heroData as HomepageHero);
+      }
+
+      if (portfolioData && portfolioData.length > 0) {
+        setPortfolioItems(portfolioData as PortfolioItem[]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   async function submitConsultation(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -210,21 +254,21 @@ export default function Home() {
 
       <main>
         <section id="hero" className="hero">
-          <div className="hero-media" />
+          <div
+            className="hero-media"
+            style={{ backgroundImage: `url("${hero.background_image_url}")` }}
+          />
           <div className="hero-overlay" />
           <div className="hero-content">
-            <p className="eyebrow">아파트 전문 인테리어</p>
-            <h1>당신의 일상을 예술로 바꾸는 공간</h1>
-            <p className="hero-copy">
-              레몬하우스 양산점이 제안하는 프리미엄 아파트 인테리어 솔루션.
-              수천 건의 시공 노하우로 생활에 맞는 집을 완성합니다.
-            </p>
+            <p className="eyebrow">{hero.eyebrow}</p>
+            <h1>{hero.title}</h1>
+            <p className="hero-copy">{hero.description}</p>
             <div className="hero-actions">
-              <a className="button button-light" href="#portfolio">
-                시공사례 보기
+              <a className="button button-light" href={hero.primary_href}>
+                {hero.primary_label}
               </a>
-              <a className="button button-primary" href="#consultation">
-                빠른 견적 문의
+              <a className="button button-primary" href={hero.secondary_href}>
+                {hero.secondary_label}
               </a>
             </div>
           </div>
@@ -298,7 +342,7 @@ export default function Home() {
             {visiblePortfolio.map((item) => (
               <article className="portfolio-card" key={`${item.apartment}-${item.title}`}>
                 <div className="portfolio-image">
-                  <img src={item.image} alt={`${item.apartment} ${item.title}`} />
+                  <img src={item.image_url} alt={`${item.apartment} ${item.title}`} />
                   <span>{item.apartment}</span>
                 </div>
                 <div className="portfolio-body">
