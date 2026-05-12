@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 type PortfolioItem = {
   title: string;
@@ -120,7 +121,7 @@ const filters = ["전체", "20평대", "30평대", "40평대 이상"] as const;
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<(typeof filters)[number]>("전체");
-  const [formState, setFormState] = useState<"idle" | "sent">("idle");
+  const [formState, setFormState] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   const visiblePortfolio = useMemo(() => {
     if (activeFilter === "전체") {
@@ -130,10 +131,32 @@ export default function Home() {
     return portfolioItems.filter((item) => item.size === activeFilter);
   }, [activeFilter]);
 
-  function submitConsultation(event: FormEvent<HTMLFormElement>) {
+  async function submitConsultation(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setFormState("sending");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      name: String(formData.get("name") ?? "").trim(),
+      phone: String(formData.get("phone") ?? "").trim(),
+      address: String(formData.get("address") ?? "").trim() || null,
+      home_size: String(formData.get("size") ?? "").trim() || null,
+      budget: String(formData.get("budget") ?? "").trim() || null,
+      message: String(formData.get("message") ?? "").trim() || null,
+      source: "website",
+    };
+
+    const { error } = await supabase.from("consultation_requests").insert(payload);
+
+    if (error) {
+      console.error(error);
+      setFormState("error");
+      return;
+    }
+
     setFormState("sent");
-    event.currentTarget.reset();
+    form.reset();
   }
 
   return (
@@ -389,11 +412,14 @@ export default function Home() {
               <input name="privacy" type="checkbox" required />
               개인정보 수집 및 이용 동의
             </label>
-            <button className="button button-primary" type="submit">
-              무료 견적 신청하기
+            <button className="button button-primary" type="submit" disabled={formState === "sending"}>
+              {formState === "sending" ? "접수 중..." : "무료 견적 신청하기"}
             </button>
             {formState === "sent" ? (
-              <p className="form-note">문의가 접수되었습니다. 실제 운영 시 전송 API를 연결하면 됩니다.</p>
+              <p className="form-note">문의가 접수되었습니다. 빠르게 연락드리겠습니다.</p>
+            ) : null}
+            {formState === "error" ? (
+              <p className="form-note error">접수 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.</p>
             ) : null}
           </form>
         </section>
