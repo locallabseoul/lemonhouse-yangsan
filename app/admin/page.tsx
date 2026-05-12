@@ -50,6 +50,7 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [uploadingField, setUploadingField] = useState<"hero" | "portfolio" | null>(null);
 
   const metrics = useMemo(() => {
     return {
@@ -217,6 +218,37 @@ export default function AdminPage() {
     setSuccessMessage("메인 히어로를 저장했습니다.");
   }
 
+  async function uploadImage(file: File, folder: "hero" | "portfolio") {
+    setErrorMessage("");
+    setSuccessMessage("");
+    setUploadingField(folder);
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("folder", folder);
+
+    try {
+      const response = await fetch("/api/admin/uploads", {
+        method: "POST",
+        body: formData,
+      });
+      const data = (await readJson(response)) as { url?: string; error?: string };
+
+      if (!response.ok || !data.url) {
+        setErrorMessage(data.error ?? "이미지 업로드에 실패했습니다.");
+        return null;
+      }
+
+      setSuccessMessage("이미지를 업로드했습니다. 저장 버튼을 눌러 반영하세요.");
+      return data.url;
+    } catch {
+      setErrorMessage("이미지 업로드에 실패했습니다.");
+      return null;
+    } finally {
+      setUploadingField(null);
+    }
+  }
+
   async function loadPortfolioItems() {
     const response = await fetch("/api/admin/portfolio");
     const data = (await readJson(response)) as {
@@ -236,6 +268,11 @@ export default function AdminPage() {
     event.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
+
+    if (!portfolioForm.image_url) {
+      setErrorMessage("시공사례 이미지를 업로드해주세요.");
+      return;
+    }
 
     const endpoint = editingPortfolioId
       ? `/api/admin/portfolio/${editingPortfolioId}`
@@ -491,15 +528,30 @@ export default function AdminPage() {
               />
             </label>
             <label>
-              배경 이미지 URL
+              배경 이미지 업로드
               <input
-                value={heroForm.background_image_url}
-                onChange={(event) =>
-                  setHeroForm({ ...heroForm, background_image_url: event.target.value })
-                }
-                required
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  if (!file) {
+                    return;
+                  }
+
+                  const url = await uploadImage(file, "hero");
+                  if (url) {
+                    setHeroForm({ ...heroForm, background_image_url: url });
+                  }
+                  event.target.value = "";
+                }}
+                type="file"
               />
             </label>
+            {heroForm.background_image_url ? (
+              <div className="admin-image-preview">
+                <img src={heroForm.background_image_url} alt="메인 히어로 배경 미리보기" />
+                <span>{uploadingField === "hero" ? "업로드 중..." : "현재 배경 이미지"}</span>
+              </div>
+            ) : null}
             <div className="form-grid">
               <label>
                 첫 번째 버튼 문구
@@ -604,15 +656,30 @@ export default function AdminPage() {
               </label>
             </div>
             <label>
-              이미지 URL
+              이미지 업로드
               <input
-                value={portfolioForm.image_url}
-                onChange={(event) =>
-                  setPortfolioForm({ ...portfolioForm, image_url: event.target.value })
-                }
-                required
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  if (!file) {
+                    return;
+                  }
+
+                  const url = await uploadImage(file, "portfolio");
+                  if (url) {
+                    setPortfolioForm({ ...portfolioForm, image_url: url });
+                  }
+                  event.target.value = "";
+                }}
+                type="file"
               />
             </label>
+            {portfolioForm.image_url ? (
+              <div className="admin-image-preview">
+                <img src={portfolioForm.image_url} alt="시공사례 이미지 미리보기" />
+                <span>{uploadingField === "portfolio" ? "업로드 중..." : "현재 시공사례 이미지"}</span>
+              </div>
+            ) : null}
             <label>
               설명
               <textarea
