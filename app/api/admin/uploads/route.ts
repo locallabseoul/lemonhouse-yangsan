@@ -41,6 +41,12 @@ export async function POST(request: Request) {
 
   try {
     const supabase = createSupabaseAdminClient();
+    const bucketError = await ensureUploadBucket(supabase);
+
+    if (bucketError) {
+      return NextResponse.json({ error: bucketError }, { status: 500 });
+    }
+
     const { error } = await supabase.storage.from(bucketName).upload(path, file, {
       cacheControl: "31536000",
       contentType: file.type,
@@ -75,6 +81,26 @@ async function requireAdmin() {
 
 function sanitizeFolder(value: string) {
   return value.replace(/[^a-z0-9-]/gi, "").toLowerCase() || "uploads";
+}
+
+async function ensureUploadBucket(supabase: ReturnType<typeof createSupabaseAdminClient>) {
+  const { error: getError } = await supabase.storage.getBucket(bucketName);
+
+  if (!getError) {
+    return null;
+  }
+
+  const { error: createError } = await supabase.storage.createBucket(bucketName, {
+    allowedMimeTypes: Array.from(allowedImageTypes),
+    fileSizeLimit: maxUploadSize,
+    public: true,
+  });
+
+  if (createError && !createError.message.toLowerCase().includes("already exists")) {
+    return createError.message;
+  }
+
+  return null;
 }
 
 function getFileExtension(fileName: string, mimeType: string) {
